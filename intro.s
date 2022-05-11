@@ -51,7 +51,7 @@
 	move.w intenar(a0),d0
 	ori.w #$8000,d0					;IRQ SET/CLR = 1
 	move.w d0,oldintena				;saving old INT
-	move.w #$7FFF,intena(a0			;stops all interrupts
+	move.w #$7FFF,intena(a0)		;stops all interrupts
 	move.l $6c.w,oldinter			;saving old 68K level 3 interrupt
 	move.l #vblint,$6c.w			;and setting our own vector
 	move.w #$C020,intena(a0)		;starting VBL interrupts
