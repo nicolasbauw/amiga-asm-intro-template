@@ -4,7 +4,7 @@
 ;- STARTUP -
 ;-----------
 
-	move.l 4,a6                    ;execbase
+	move.l 4,a6                     ;execbase
 	jsr -132(a6)                    ;forbid
 
 ;alloc mem
