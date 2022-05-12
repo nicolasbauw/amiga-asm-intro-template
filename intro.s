@@ -4,7 +4,7 @@
 ;- STARTUP -
 ;-----------
 
-	move.l	4,a6                    ;execbase
+	move.l 4,a6                    ;execbase
 	jsr -132(a6)                    ;forbid
 
 ;alloc mem
@@ -35,7 +35,7 @@
 	ori.w #$8000,d0                 ;DMA SET/CLR = 1
 	move.w d0,olddma                ;saving old DMA
 	
-	bsr	waitvbl
+	bsr waitvbl
 	move.w #$7FFF,dmacon(a0)        ;stops all DMA
 	move.w #$1000,bplcon0(a0)       ;1 bitplan lores non interlaced
 	move.w #$0000,bplcon1(a0)
@@ -80,7 +80,7 @@ vblint:
 
 	bsr mt_music                    ;module playing routine
 
-	lea	custom,a0
+	lea custom,a0
 	move.w #$4020,intreq(a0)        ;clears interrupt flag
 	movem.l	(a7)+,d0-d7/a0-a6       ;restores registers from stack
 	rte	
