@@ -157,8 +157,8 @@ gfxname		dc.b	"graphics.library",0
 
 	section	copper,data_c
 	
-clist       dc.w	$01FC,0					;slow fetch mode (AGA compatibility)
-			dc.w	$0180,$0004
+clist		dc.w	$01FC,0                 ;slow fetch mode (AGA compatibility)
+            dc.w	$0180,$0004
 pth         dc.w	$00E0,0,$00E2,0         ;BPL1PTH and BPL1PTL
             dc.w	$FFFF,$FFFE             ;end of copperlist
 
