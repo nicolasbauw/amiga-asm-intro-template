@@ -138,9 +138,17 @@ end:
 	clr.l d0                        ;return code
 	rts
 	
+;-------------------------
+;- Module replay routine -
+;-------------------------
+
+    include "ptreplay.s"
+
 ;---------------------------------------
 ;- Variables, datas and replay routine -
 ;---------------------------------------
+
+    section data,data
 
 bitplan		dc.l	0
 oldcop		dc.l	0
@@ -148,14 +156,12 @@ olddma		dc.w	0
 oldintena	dc.w	0
 oldinter	dc.l	0
 gfxname		dc.b	"graphics.library",0
-	even
-	include "ptreplay.s"
 	
 ;--------------
 ;- Copperlist -
 ;--------------
 
-	section	copper,data_c
+	section	data_c,data_c
 	
 clist       dc.w	$01FC,0                 ;slow fetch mode (AGA compatibility)
             dc.w	$0180,$0004
