@@ -5,7 +5,6 @@
 ;-----------
 
 	move.l 4,a6                     ;execbase
-	jsr -132(a6)                    ;forbid
 
 ;alloc mem
 
@@ -28,9 +27,16 @@
 	move.l 38(a1),oldcop            ;saving old copperlist address
 	jsr -414(a6)                    ;close graphics.library
 
-;init new DMA, int, display and copperlist
+;init new DMA, interrupts, display and copperlist
 
 	lea custom,a0
+	lea clist,a2
+
+	move.w intenar(a0),d0
+	ori.w #$8000,d0                 ;IRQ SET/CLR = 1
+	move.w d0,oldintena             ;saving old INT
+	move.w #$7FFF,intena(a0)        ;stops all interrupts
+
 	move.w dmaconr(a0),d0
 	ori.w #$8000,d0                 ;DMA SET/CLR = 1
 	move.w d0,olddma                ;saving old DMA
@@ -43,14 +49,9 @@
 	move.w #$00D0,ddfstop(a0)
 	move.w #$2C81,diwstrt(a0)
 	move.w #$2CC1,diwstop(a0)
-	move.w #$000A,bpl1mod
-	lea clist,a2
+	move.w #$0000,bpl1mod(a0)
 	move.l a2,cop1lc(a0)            ;setting copper to use our copperlist
 
-	move.w intenar(a0),d0
-	ori.w #$8000,d0                 ;IRQ SET/CLR = 1
-	move.w d0,oldintena             ;saving old INT
-	move.w #$7FFF,intena(a0)        ;stops all interrupts
 	move.l $6c.w,oldinter           ;saving old 68K level 3 interrupt
 	move.l #vblint,$6c.w            ;and setting our own vector
 	move.w #$C020,intena(a0)        ;starting VBL interrupts
@@ -134,7 +135,6 @@ end:
 	move.l #$3200,d0
 	move.l 4,a6                     ;execbase
 	jsr -210(a6)                    ;freemem
-	jsr -138(a6)                    ;permit
 	clr.l d0                        ;return code
 	rts
 	
